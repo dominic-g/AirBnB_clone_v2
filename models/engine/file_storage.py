@@ -29,12 +29,8 @@ class FileStorage:
     }
 
     def all(self, cls=None):
-        """
-        Return a list of objects of one type
-        of class (optional filtering)
-        """
         if cls:
-            return [v for k, v in self.__objects.items() if isinstance(v, cls)]
+            return {k: v for k, v in self.__objects.items() if isinstance(v, cls)}
         else:
             return self.__objects
 
