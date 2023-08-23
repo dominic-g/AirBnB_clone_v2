@@ -29,11 +29,19 @@ class FileStorage:
     }
 
     def all(self, cls=None):
-        if cls:
-            return {k: v for k, v in self.__objects.items() if isinstance(v, cls)}
-        else:
+        '''
+        Return the dictionary
+        '''
+        if cls is None:
             return self.__objects
-
+        else:
+            dict = {}
+            for k, v in self.__objects.items():
+                name = k.split('.')
+                if name[0] in str(cls):
+                    dict[k] = v
+            return dict
+    
     def new(self, obj):
         """sets __object to given obj
         Args:
