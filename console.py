@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+import re
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -113,18 +114,56 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
+    """    def do_create(self, args):
+    # Create an object of any class
+    if not args:
+        print("** class name missing **")
+        return
+    elif args not in HBNBCommand.classes:
+        print("** class doesn't exist **")
+        return
+    new_instance = HBNBCommand.classes[args]()
+    storage.save()
+    print(new_instance.id)
+    storage.save()
+    """
     def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
+        '''
+        Create a new instance of class BaseModel and save it
+        to the JSON file.
+        '''
+        if len(args) == 0:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        
+        class_name, *attr_args = args.split()
+
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+        
+        new_instance = HBNBCommand.classes[class_name]()
+
+        for arg in attr_args:
+            key, value = arg.split('=')
+            
+            try:
+                setattr(new_instance, key, convert_to_proper_type(value))
+            except AttributeError:
+                print(f"Attribute '{key}' doesn't exist in class '{class_name}'")
+
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
+
+def convert_to_proper_type(value):
+    if re.match(r'^".*"$', value):
+        return value.replace("_", " ").replace("\"", "")
+    elif "." in value:
+        return float(value)
+    elif re.match(r"\d+", value):
+        return int(value)
+    return value
+
 
     def help_create(self):
         """ Help information for the create method """

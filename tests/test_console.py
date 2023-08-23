@@ -89,6 +89,26 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("all User")
             self.assertEqual(
                 "[[User]", f.getvalue()[:7])
+    
+    def test_create_valid(self):
+        class_name = "BaseModel"
+        params = 'name="Test" value=42'
+        expected_output = "test_id\n"
+        
+        with patch('uuid.uuid4', return_value='test_id'):
+            self.assert_stdout(
+                expected_output,
+                self.console.do_create,
+                f"{class_name} {params}"
+            )
+
+    def test_create_missing_class(self):
+        expected_output = "** class name missing **\n"
+        self.assert_stdout(expected_output, self.console.do_create, "")
+
+    def test_create_invalid_class(self):
+        expected_output = "** class doesn't exist **\n"
+        self.assert_stdout(expected_output, self.console.do_create, "InvalidClass")
 
     def test_show(self):
         """Test show command inpout"""
