@@ -29,16 +29,19 @@ class FileStorage:
     }
 
     def all(self, cls=None):
-        """returns a dictionary
-        Return:
-            returns a dictionary of __object
-        """
-        cls = cls if not isinstance(cls, str) else self.__clsdict.get(cls)
-        if cls:
-            return {k: v for k, v in self.__objects.items()
-                    if isinstance(v, cls)}
-        return self.__objects
-
+        '''
+        Return the dictionary
+        '''
+        if cls is None:
+            return self.__objects
+        else:
+            dict = {}
+            for k, v in self.__objects.items():
+                name = k.split('.')
+                if name[0] in str(cls):
+                    dict[k] = v
+            return dict
+    
     def new(self, obj):
         """sets __object to given obj
         Args:
@@ -77,10 +80,11 @@ class FileStorage:
         """
         if obj:
             key = "{}.{}".format(type(obj).__name__, obj.id)
-            try:
-                del self.__objects[key]
-            except KeyError:
-                pass
+            self.__objects.pop(key, None)
+            # try:
+            #     del self.__objects[key]
+            # except KeyError:
+            #     pass
 
     def close(self):
         """deserializing the JSON file to objects
