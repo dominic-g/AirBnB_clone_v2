@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Put everything in the web static
+"""pack all content within web_static
 """
 from fabric.api import local
 from datetime import datetime
@@ -7,8 +7,9 @@ import os
 
 
 def do_pack():
-    """compress webstatic in a tgz
-    the tgz created will be put in folder versions
+    """pack all content within web_static
+    into a .tgz archive
+    The archive will be put in versions/
     """
     if not os.path.exists("versions"):
         local("mkdir versions")

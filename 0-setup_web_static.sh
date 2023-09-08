@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# setup server for deployment web_static
 apt-get update -y
 apt-get upgrade -y
 apt-get install nginx -y

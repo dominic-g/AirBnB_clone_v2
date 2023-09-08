@@ -9,8 +9,9 @@ env.user = 'ubuntu'
 
 
 def do_pack():
-    """
-    Return Packed
+    """pack all content within web_static
+    into a .tgz archive
+    The archive will be put in versions/
     """
     if not os.path.exists("versions"):
         local("mkdir versions")
@@ -25,9 +26,9 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """Send to Server
+    """deploy package to remote server
     Arguments:
-        archive_path: file to send
+        archive_path: path to archive to deploy
     """
     if not archive_path or not os.path.exists(archive_path):
         return False
@@ -58,7 +59,7 @@ def do_deploy(archive_path):
 
 
 def deploy():
-    """dompress and send to server
+    """pack web_static content and deploy it to web servers
     """
     pack = do_pack()
     if pack:

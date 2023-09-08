@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""compress and send to server
+"""pack and deploy content to server
 """
 from fabric.api import local, env, run, put
 from datetime import datetime
@@ -9,8 +9,9 @@ env.user = 'ubuntu'
 
 
 def do_pack():
-    """compress webstatic in a tgz
-    the tgz created will be put in folder versions
+    """pack all content within web_static
+    into a .tgz archive
+    The archive will be put in versions/
     """
     if not os.path.exists("versions"):
         local("mkdir versions")
@@ -25,9 +26,9 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """send archive to server
+    """deploy package to remote server
     Arguments:
-        archive_path: the archive tgz file to send
+        archive_path: path to archive to deploy
     """
     if not archive_path or not os.path.exists(archive_path):
         return False
