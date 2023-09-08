@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-"""pack and deploy content to server
+"""pack and deploy content to serve
 """
 from fabric.api import local, env, run, put
 from datetime import datetime
 import os
-env.hosts = ['35.231.156.161', '34.73.64.44']
+env.hosts = ['52.91.117.114', '52.91.118.146']
 env.user = 'ubuntu'
 
 

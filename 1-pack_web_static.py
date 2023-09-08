@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""pack all content within web_static
+"""pack all content within web
 """
 from fabric.api import local
 from datetime import datetime
