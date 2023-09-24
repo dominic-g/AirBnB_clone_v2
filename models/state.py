@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
 from models.base_model import BaseModel, Base
+from models.city import City
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
@@ -17,20 +18,10 @@ class State(BaseModel, Base):
     if getenv("HBNB_TYPE_STORAGE") != "db":
         @property
         def cities(self):
-            """public getter method cities to return the list
-            of City objects from storage linked to the current State
-            """
-            storage_list = models.storage.all()
-            cities_list = []
-            result = []
-
-            for key in storage_list:
-                model_name = key.split('.')[0]
-                if model_name == 'City':
-                    cities_list.append(storage_list[key])
-
-            for city in cities_list:
-                if city.state_id == self.id:
-                    result.append(city)
-
-            return result
+            """A relationship between state and city."""
+            city_list = []
+            all_cities = models.storage.all(City)
+            for value in all_cities.values():
+                if value.state_id == self.id:
+                    city_list.append(value)
+            return city_list
