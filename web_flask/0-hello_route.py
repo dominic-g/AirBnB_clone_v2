@@ -16,7 +16,7 @@ def hello_world():
 
 
 @app.route('/airbnb-onepage', strict_slashes=False)
-def hello_world():
+def hello_world_2():
     """This function executes when the 0.0.0.0:5000/airbnb-onepage is requested"""
     return 'Hello HBNB!'
 
